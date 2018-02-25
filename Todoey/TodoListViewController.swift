@@ -8,9 +8,9 @@
 
 import UIKit
 
-class TodoListViewController: UITableViewController, UITableViewDataSource, UITableViewDelegate {
+class TodoListViewController: UITableViewController {
     
-    let itemArray = ["Find Mike", "Buy Eggs", "Destroy Demogorgon"]
+    var itemArray = ["Find Mike", "Buy Eggs", "Destroy Demogorgon"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,7 +36,6 @@ class TodoListViewController: UITableViewController, UITableViewDataSource, UITa
         if tableView.cellForRow(at: indexPath)?.accessoryType == .checkmark {
             
             tableView.cellForRow(at: indexPath)?.accessoryType = .none
-            
         }else {
             tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
             
@@ -46,7 +45,28 @@ class TodoListViewController: UITableViewController, UITableViewDataSource, UITa
     }
 
    
-
-
+    @IBAction func addButtonPressed(_ sender: Any) {
+        
+        var textField = UITextField()
+        
+        let alert  = UIAlertController(title: "Add New Todoey Item", message: "", preferredStyle: .alert)
+        
+        let action = UIAlertAction(title: "Add Item", style: .default){
+            (action) in
+            // What will hapen once the user clicks the Add Item button on our UIAlert
+            self.itemArray.append(textField.text!)
+            self.tableView.reloadData()
+            //print("Success")
+        }
+        alert.addTextField {
+            (alertTextField) in
+            alertTextField.placeholder = "Create new item"
+            textField = alertTextField
+            //print(alertTextField.text)
+        }
+        
+        alert.addAction(action)
+        present(alert, animated: true, completion: nil)
+    }
 }
 
